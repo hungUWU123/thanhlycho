@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { PrismaClient } from "@prisma/client";
 import { createProduct } from "@/actions/adminActions";
 import styles from "../../layout.module.css";

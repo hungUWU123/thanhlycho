@@ -40,7 +40,7 @@ export default async function AdminProducts() {
                 </td>
               </tr>
             ) : (
-              products.map((product) => (
+              products.map((product: any) => (
                 <tr key={product.id}>
                   <td style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                     {product.image ? (

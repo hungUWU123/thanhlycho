@@ -56,7 +56,7 @@ export default async function AdminOrders() {
                 <td colSpan={5} style={{ textAlign: "center", padding: "3rem" }}>Chưa có đơn hàng nào.</td>
               </tr>
             ) : (
-              orders.map((order) => {
+              orders.map((order: any) => {
                 const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.PENDING;
                 return (
                   <tr key={order.id}>

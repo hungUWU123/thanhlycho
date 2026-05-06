@@ -101,7 +101,7 @@ export async function updateOrderStatus(formData: FormData) {
 
   // If cancelling, restore stock in a transaction
   if (status === "CANCELLED") {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       // Get the order with its items
       const order = await tx.order.findUnique({
         where: { id: orderId },

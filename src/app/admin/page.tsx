@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+export const dynamic = "force-dynamic";
+import prisma from "@/lib/prisma";
 import styles from "./layout.module.css";
 import Link from "next/link";
-
-const prisma = new PrismaClient();
 
 export default async function AdminDashboard() {
   const [productCount, categoryCount, orderCount, totalRevenue] = await Promise.all([
@@ -11,7 +10,9 @@ export default async function AdminDashboard() {
     prisma.order.count(),
     prisma.order.aggregate({
       _sum: { total: true },
-      where: { status: "COMPLETED" }
+      where: { 
+        status: { not: "CANCELLED" } 
+      }
     })
   ]);
 
@@ -31,7 +32,7 @@ export default async function AdminDashboard() {
       {/* Stats Grid */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.5rem", marginBottom: "3rem" }}>
         <div className="card" style={{ padding: "1.5rem", borderLeft: "4px solid var(--primary)" }}>
-          <div style={{ fontSize: "0.9rem", color: "var(--text-muted)", marginBottom: "0.5rem" }}>TỔNG DOANH THU (ĐÃ GIAO)</div>
+          <div style={{ fontSize: "0.9rem", color: "var(--text-muted)", marginBottom: "0.5rem" }}>TỔNG DOANH THU (TẤT CẢ)</div>
           <div style={{ fontSize: "1.8rem", fontWeight: "800", color: "var(--primary)" }}>
             {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalRevenue._sum.total || 0)}
           </div>

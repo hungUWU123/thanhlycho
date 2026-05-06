@@ -5,6 +5,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import HeaderNav from "@/components/HeaderNav";
 import WelcomePopup from "@/components/WelcomePopup";
+import { Toaster } from "react-hot-toast";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -24,6 +25,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <html lang="vi" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
         <CartProvider>
+          <Toaster position="top-right" />
           <div className="app-container">
             <header className="header">
               <div className="header-content">

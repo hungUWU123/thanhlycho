@@ -44,19 +44,53 @@ export async function createProduct(formData: FormData) {
   redirect("/admin/products");
 }
 
+export async function updateProduct(formData: FormData) {
+  const id = formData.get("id") as string;
+  const name = formData.get("name") as string;
+  const description = formData.get("description") as string;
+  const price = parseFloat(formData.get("price") as string);
+  const originalPriceStr = formData.get("originalPrice") as string;
+  const originalPrice = originalPriceStr ? parseFloat(originalPriceStr) : null;
+  const condition = formData.get("condition") as string;
+  const categoryId = formData.get("categoryId") as string;
+  const imageUrl = formData.get("image") as string;
+  const stock = parseInt(formData.get("stock") as string) || 0;
+  const inStock = formData.get("inStock") === "true";
+
+  await prisma.product.update({
+    where: { id },
+    data: { name, description, price, originalPrice, condition, categoryId, image: imageUrl, stock, inStock },
+  });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/");
+  redirect("/admin/products");
+}
+
+export async function deleteProduct(formData: FormData) {
+  const id = formData.get("productId") as string;
+  await prisma.product.delete({ where: { id } });
+  revalidatePath("/admin/products");
+}
+
 export async function createCategory(formData: FormData) {
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
-
   if (!name) throw new Error("Tên danh mục là bắt buộc");
-
-  await prisma.category.create({
-    data: { name, description },
-  });
-
+  await prisma.category.create({ data: { name, description } });
   revalidatePath("/admin/categories");
   redirect("/admin/categories");
 }
+
+export async function deleteCategory(formData: FormData) {
+  const id = formData.get("categoryId") as string;
+  // Check if category has products
+  const count = await prisma.product.count({ where: { categoryId: id } });
+  if (count > 0) throw new Error("Không thể xóa danh mục đang có sản phẩm");
+  await prisma.category.delete({ where: { id } });
+  revalidatePath("/admin/categories");
+}
+
 
 export async function updateOrderStatus(formData: FormData) {
   const orderId = formData.get("orderId") as string;
@@ -111,4 +145,23 @@ export async function updateOrderStatus(formData: FormData) {
   revalidatePath("/admin/orders");
   revalidatePath("/products");
   revalidatePath("/");
+}
+
+export async function loginAdmin(password: string) {
+  if (password === process.env.ADMIN_PASSWORD) {
+    const { cookies } = await import("next/headers");
+    (await cookies()).set("admin_session", "true", { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 // 1 day
+    });
+    return true;
+  }
+  return false;
+}
+
+export async function logoutAdmin() {
+  const { cookies } = await import("next/headers");
+  (await cookies()).delete("admin_session");
+  redirect("/admin/login");
 }

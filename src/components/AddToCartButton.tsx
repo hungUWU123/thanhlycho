@@ -1,11 +1,10 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 export default function AddToCartButton({ product }: { product: any }) {
-  const { addToCart } = useCart();
-  const [added, setAdded] = useState(false);
+  const { addItem } = useCart();
 
   if (!product.inStock) {
     return (
@@ -28,9 +27,18 @@ export default function AddToCartButton({ product }: { product: any }) {
   }
 
   const handleAdd = () => {
-    addToCart(product);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+    });
+    toast.success(`Đã thêm ${product.name} vào giỏ hàng!`, {
+      icon: "🛒",
+      position: "top-right",
+      style: { borderRadius: "10px", background: "#333", color: "#fff" },
+    });
   };
 
   return (
@@ -39,8 +47,7 @@ export default function AddToCartButton({ product }: { product: any }) {
       className="btn btn-primary"
       style={{ width: "100%", padding: "1rem", fontSize: "1.1rem" }}
     >
-      {added ? "✓ Đã thêm vào giỏ hàng" : "🛒 Thêm vào giỏ hàng"}
+      🛒 Thêm vào giỏ hàng
     </button>
   );
 }
-

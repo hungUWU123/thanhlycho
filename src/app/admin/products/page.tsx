@@ -3,7 +3,7 @@ import prisma from "../../lib/prisma";
 import Link from "next/link";
 import styles from "../layout.module.css";
 import tableStyles from "./products.module.css";
-import { deleteProduct } from "@/actions/adminActions";
+import { deleteProduct } from "../../../actions/adminActions";
 
 export default async function AdminProducts() {
   const products = await prisma.product.findMany({

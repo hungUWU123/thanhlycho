@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import prisma from "../../lib/prisma";
 import styles from "../layout.module.css";
 import tableStyles from "../products/products.module.css";
-import { updateOrderStatus, deleteOrder } from "@/actions/adminActions";
+import { updateOrderStatus, deleteOrder } from "../../../actions/adminActions";
 
 const STATUS_CONFIG: Record<string, { label: string; bg: string; color: string }> = {
   PENDING:   { label: "⏳ Chờ duyệt",  bg: "#fef3c7", color: "#92400e" },

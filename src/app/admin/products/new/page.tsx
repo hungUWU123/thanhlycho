@@ -1,11 +1,9 @@
 export const dynamic = "force-dynamic";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../lib/prisma";
 import { createProduct } from "@/actions/adminActions";
 import styles from "../../layout.module.css";
 import formStyles from "../products.module.css";
 import Link from "next/link";
-
-const prisma = new PrismaClient();
 
 export default async function NewProduct() {
   const categories = await prisma.category.findMany();

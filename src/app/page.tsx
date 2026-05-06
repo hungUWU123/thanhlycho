@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "./lib/prisma";
 import Link from "next/link";
 import AddToCartButton from "@/components/AddToCartButton";
-
-const prisma = new PrismaClient();
 
 export default async function Home({
   searchParams,

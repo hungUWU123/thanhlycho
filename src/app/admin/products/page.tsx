@@ -1,5 +1,5 @@
 export const dynamic = "force-dynamic";
-import prisma from "@/lib/prisma";
+import prisma from "../../lib/prisma";
 import Link from "next/link";
 import styles from "../layout.module.css";
 import tableStyles from "./products.module.css";

@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+export const dynamic = "force-dynamic";
+import prisma from "../../lib/prisma";
 import styles from "../layout.module.css";
 import tableStyles from "../products/products.module.css";
-import { updateOrderStatus } from "@/actions/adminActions";
-
-const prisma = new PrismaClient();
+import { updateOrderStatus, deleteOrder } from "@/actions/adminActions";
 
 const STATUS_CONFIG: Record<string, { label: string; bg: string; color: string }> = {
   PENDING:   { label: "⏳ Chờ duyệt",  bg: "#fef3c7", color: "#92400e" },
@@ -26,12 +25,11 @@ export default async function AdminOrders() {
   };
 
   return (
-    <div>
+    <div className="animate-fade">
       <div className={styles.header}>
         <h1>Quản Lý Đơn Hàng</h1>
       </div>
 
-      {/* Summary cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
         {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
           <div key={key} className="card" style={{ padding: "1rem", borderLeft: `4px solid ${cfg.color}` }}>
@@ -46,8 +44,6 @@ export default async function AdminOrders() {
           <thead>
             <tr>
               <th>Khách hàng</th>
-              <th>Điện thoại</th>
-              <th>Địa chỉ</th>
               <th>Sản phẩm</th>
               <th>Tổng tiền</th>
               <th>Trạng thái</th>
@@ -57,22 +53,20 @@ export default async function AdminOrders() {
           <tbody>
             {orders.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: "center", padding: "2rem" }}>
-                  Chưa có đơn hàng nào.
-                </td>
+                <td colSpan={5} style={{ textAlign: "center", padding: "3rem" }}>Chưa có đơn hàng nào.</td>
               </tr>
             ) : (
               orders.map((order) => {
                 const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.PENDING;
                 return (
                   <tr key={order.id}>
-                    <td style={{ fontWeight: 500 }}>{order.customerName}</td>
-                    <td>{order.phone}</td>
-                    <td style={{ maxWidth: "180px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={order.address}>
-                      {order.address}
+                    <td>
+                      <div style={{ fontWeight: "bold" }}>{order.customerName}</div>
+                      <div style={{ fontSize: "0.85rem" }}>{order.phone}</div>
+                      <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", maxWidth: "200px" }}>{order.address}</div>
                     </td>
                     <td>
-                      <ul style={{ margin: 0, paddingLeft: "1rem", fontSize: "0.9rem" }}>
+                      <ul style={{ margin: 0, paddingLeft: "1.2rem", fontSize: "0.85rem" }}>
                         {order.orderItems.map(item => (
                           <li key={item.id}>{item.quantity}x {item.product.name}</li>
                         ))}
@@ -85,56 +79,44 @@ export default async function AdminOrders() {
                       <span style={{
                         padding: "0.25rem 0.6rem",
                         borderRadius: "999px",
-                        fontSize: "0.8rem",
+                        fontSize: "0.75rem",
                         fontWeight: "bold",
                         backgroundColor: cfg.bg,
                         color: cfg.color,
-                        whiteSpace: "nowrap",
                       }}>
                         {cfg.label}
                       </span>
                     </td>
                     <td>
-                      <form action={updateOrderStatus}>
-                        <input type="hidden" name="orderId" value={order.id} />
-                        <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-
-                          {/* PENDING → Bắt đầu giao */}
-                          {order.status === "PENDING" && (
-                            <button type="submit" name="status" value="SHIPPING"
-                              className="btn"
-                              style={{ backgroundColor: "#3b82f6", color: "white", padding: "0.3rem 0.6rem", fontSize: "0.8rem" }}>
-                              🚚 Bắt đầu giao
-                            </button>
-                          )}
-
-                          {/* SHIPPING → Hoàn thành */}
-                          {order.status === "SHIPPING" && (
-                            <button type="submit" name="status" value="COMPLETED"
-                              className="btn"
-                              style={{ backgroundColor: "#10b981", color: "white", padding: "0.3rem 0.6rem", fontSize: "0.8rem" }}>
-                              ✅ Đã giao xong
-                            </button>
-                          )}
-
-                          {/* PENDING hoặc SHIPPING → Hủy (bom hàng) → tự hoàn stock */}
-                          {(order.status === "PENDING" || order.status === "SHIPPING") && (
-                            <button
-                              type="submit"
-                              name="status"
-                              value="CANCELLED"
-                              className="btn btn-outline"
-                              style={{ padding: "0.3rem 0.6rem", fontSize: "0.8rem", color: "#dc2626", borderColor: "#dc2626" }}
-                            >
-                              ❌ Hủy (bom hàng)
-                            </button>
-                          )}
-
-                          {(order.status === "COMPLETED" || order.status === "CANCELLED") && (
-                            <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>—</span>
-                          )}
-                        </div>
-                      </form>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                        <form action={updateOrderStatus}>
+                          <input type="hidden" name="orderId" value={order.id} />
+                          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                            {order.status === "PENDING" && (
+                              <button type="submit" name="status" value="SHIPPING" className="btn btn-primary" style={{ padding: "0.3rem 0.6rem", fontSize: "0.8rem" }}>
+                                🚚 Giao hàng
+                              </button>
+                            )}
+                            {order.status === "SHIPPING" && (
+                              <button type="submit" name="status" value="COMPLETED" className="btn" style={{ backgroundColor: "#10b981", color: "white", padding: "0.3rem 0.6rem", fontSize: "0.8rem" }}>
+                                ✅ Hoàn thành
+                              </button>
+                            )}
+                            {(order.status === "PENDING" || order.status === "SHIPPING") && (
+                              <button type="submit" name="status" value="CANCELLED" className="btn btn-outline" style={{ padding: "0.3rem 0.6rem", fontSize: "0.8rem", color: "#ef4444" }}>
+                                ❌ Hủy/Bom
+                              </button>
+                            )}
+                          </div>
+                        </form>
+                        
+                        <form action={deleteOrder} onSubmit={(e) => !confirm("Bạn có muốn xóa đơn hàng này khỏi lịch sử?") && e.preventDefault()}>
+                          <input type="hidden" name="orderId" value={order.id} />
+                          <button type="submit" className="btn" style={{ width: "100%", padding: "0.3rem 0.6rem", fontSize: "0.8rem", color: "#64748b" }}>
+                            🗑️ Xóa đơn
+                          </button>
+                        </form>
+                      </div>
                     </td>
                   </tr>
                 );

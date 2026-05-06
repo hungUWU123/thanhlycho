@@ -1,12 +1,10 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { writeFile } from "fs/promises";
 import path from "path";
-
-const prisma = new PrismaClient();
 
 export async function createProduct(formData: FormData) {
   const name = formData.get("name") as string;

@@ -91,6 +91,9 @@ export async function deleteCategory(formData: FormData) {
 
 export async function deleteOrder(formData: FormData) {
   const id = formData.get("orderId") as string;
+  // Xóa các sản phẩm trong đơn trước để tránh lỗi ràng buộc
+  await prisma.orderItem.deleteMany({ where: { orderId: id } });
+  // Sau đó mới xóa đơn hàng
   await prisma.order.delete({ where: { id } });
   revalidatePath("/admin/orders");
 }

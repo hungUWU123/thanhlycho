@@ -67,7 +67,7 @@ export default async function AdminOrders() {
                     </td>
                     <td>
                       <ul style={{ margin: 0, paddingLeft: "1.2rem", fontSize: "0.85rem" }}>
-                        {order.orderItems.map(item => (
+                        {order.orderItems.map((item: any) => (
                           <li key={item.id}>{item.quantity}x {item.product.name}</li>
                         ))}
                       </ul>

@@ -1,12 +1,13 @@
 "use client";
 
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/context/CartContext";
 import { toast } from "react-hot-toast";
 
 export default function AddToCartButton({ product }: { product: any }) {
-  const { addItem } = useCart();
+  const { addToCart } = useCart();
 
   if (!product.inStock) {
+    // ... (phần nút hết hàng giữ nguyên)
     return (
       <button
         disabled
@@ -27,13 +28,7 @@ export default function AddToCartButton({ product }: { product: any }) {
   }
 
   const handleAdd = () => {
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      quantity: 1,
-    });
+    addToCart(product);
     toast.success(`Đã thêm ${product.name} vào giỏ hàng!`, {
       icon: "🛒",
       position: "top-right",

@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "../lib/prisma";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { writeFile } from "fs/promises";
@@ -87,6 +87,12 @@ export async function deleteCategory(formData: FormData) {
   if (count > 0) throw new Error("Không thể xóa danh mục đang có sản phẩm");
   await prisma.category.delete({ where: { id } });
   revalidatePath("/admin/categories");
+}
+
+export async function deleteOrder(formData: FormData) {
+  const id = formData.get("orderId") as string;
+  await prisma.order.delete({ where: { id } });
+  revalidatePath("/admin/orders");
 }
 
 

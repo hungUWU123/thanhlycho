@@ -1,8 +1,8 @@
-export const dynamic = "force-dynamic";
-import prisma from "../../../lib/prisma";
+import prisma from "@/lib/prisma";
 import styles from "../layout.module.css";
 import tableStyles from "../products/products.module.css";
-import { updateOrderStatus, deleteOrder } from "../../../actions/adminActions";
+import { updateOrderStatus, deleteOrder } from "@/actions/adminActions";
+import DeleteButton from "@/components/DeleteButton";
 
 const STATUS_CONFIG: Record<string, { label: string; bg: string; color: string }> = {
   PENDING:   { label: "⏳ Chờ duyệt",  bg: "#fef3c7", color: "#92400e" },
@@ -110,12 +110,13 @@ export default async function AdminOrders() {
                           </div>
                         </form>
                         
-                        <form action={deleteOrder} onSubmit={(e) => !confirm("Bạn có muốn xóa đơn hàng này khỏi lịch sử?") && e.preventDefault()}>
-                          <input type="hidden" name="orderId" value={order.id} />
-                          <button type="submit" className="btn" style={{ width: "100%", padding: "0.3rem 0.6rem", fontSize: "0.8rem", color: "#64748b" }}>
-                            🗑️ Xóa đơn
-                          </button>
-                        </form>
+                        <DeleteButton 
+                          action={deleteOrder} 
+                          id={order.id} 
+                          name={`Đơn hàng của ${order.customerName}`} 
+                          label="🗑️ Xóa đơn"
+                          idFieldName="orderId" 
+                        />
                       </div>
                     </td>
                   </tr>

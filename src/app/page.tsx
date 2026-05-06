@@ -1,6 +1,6 @@
-import prisma from "../lib/prisma";
+import prisma from "@/lib/prisma";
 import Link from "next/link";
-import AddToCartButton from "../components/AddToCartButton";
+import AddToCartButton from "@/components/AddToCartButton";
 
 export default async function Home({
   searchParams,

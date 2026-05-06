@@ -1,9 +1,9 @@
-export const dynamic = "force-dynamic";
-import prisma from "../../../lib/prisma";
+import prisma from "@/lib/prisma";
 import Link from "next/link";
 import styles from "../layout.module.css";
 import tableStyles from "./products.module.css";
-import { deleteProduct } from "../../../actions/adminActions";
+import { deleteProduct } from "@/actions/adminActions";
+import DeleteButton from "@/components/DeleteButton";
 
 export default async function AdminProducts() {
   const products = await prisma.product.findMany({
@@ -75,12 +75,12 @@ export default async function AdminProducts() {
                       <Link href={`/admin/products/${product.id}/edit`} className="btn btn-outline" style={{ padding: "0.4rem 0.8rem", fontSize: "0.85rem" }}>
                         Sửa
                       </Link>
-                      <form action={deleteProduct} onSubmit={(e) => !confirm("Bạn có chắc muốn xóa sản phẩm này?") && e.preventDefault()}>
-                        <input type="hidden" name="productId" value={product.id} />
-                        <button type="submit" className="btn" style={{ padding: "0.4rem 0.8rem", fontSize: "0.85rem", backgroundColor: "#fee2e2", color: "#ef4444" }}>
-                          Xóa
-                        </button>
-                      </form>
+                      <DeleteButton 
+                        action={deleteProduct} 
+                        id={product.id} 
+                        name={product.name} 
+                        idFieldName="productId" 
+                      />
                     </div>
                   </td>
                 </tr>

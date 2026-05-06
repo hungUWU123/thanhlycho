@@ -1,7 +1,7 @@
-import prisma from "../../../../lib/prisma";
-import { updateProduct } from "../../../../actions/adminActions";
-import styles from "../../layout.module.css";
-import formStyles from "../products.module.css";
+import prisma from "@/lib/prisma";
+import { updateProduct } from "@/actions/adminActions";
+import styles from "../../../layout.module.css";
+import formStyles from "../../products.module.css";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -43,6 +43,11 @@ export default async function EditProduct({ params }: { params: Promise<{ id: st
           <div className={formStyles.formGroup}>
             <label htmlFor="price">Giá thanh lý (VNĐ) *</label>
             <input type="number" id="price" name="price" className={formStyles.input} defaultValue={product.price} required />
+          </div>
+
+          <div className={formStyles.formGroup}>
+            <label htmlFor="condition">Tình trạng (Mới/Cũ/99%...) *</label>
+            <input type="text" id="condition" name="condition" className={formStyles.input} defaultValue={product.condition} required />
           </div>
 
           <div className={formStyles.formGroup}>

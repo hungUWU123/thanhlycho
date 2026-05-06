@@ -17,10 +17,11 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    if (mounted && items.length === 0) {
+    // Chỉ chuyển hướng nếu giỏ hàng trống VÀ không phải đang trong quá trình gửi đơn
+    if (mounted && items.length === 0 && !isSubmitting) {
       router.push("/cart");
     }
-  }, [mounted, items.length, router]);
+  }, [mounted, items.length, router, isSubmitting]);
 
   if (!mounted || items.length === 0) {
     return null;
@@ -48,8 +49,8 @@ export default function CheckoutPage() {
       });
 
       if (response.ok) {
-        clearCart();
         router.push("/checkout/success");
+        setTimeout(() => clearCart(), 500); // Đợi 1 chút mới xóa giỏ để tránh giật lag
       } else {
         alert("Có lỗi xảy ra khi đặt hàng.");
       }
@@ -88,8 +89,24 @@ export default function CheckoutPage() {
               <strong>Phương thức thanh toán:</strong> Thanh toán khi nhận hàng (COD)
             </div>
 
-            <button type="submit" className="btn btn-primary" style={{ marginTop: "1rem", padding: "1rem", fontSize: "1.1rem" }} disabled={isSubmitting}>
-              {isSubmitting ? "Đang xử lý..." : "Xác Nhận Đặt Hàng"}
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              style={{ 
+                marginTop: "1.5rem", 
+                padding: "1.25rem", 
+                fontSize: "1.1rem", 
+                width: "100%",
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? "not-allowed" : "pointer"
+              }} 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+                  <div className="spinner"></div> Đang xử lý đơn hàng...
+                </span>
+              ) : "🚀 Xác Nhận Đặt Hàng"}
             </button>
           </form>
         </div>

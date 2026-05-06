@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import { CartProvider } from "./context/CartContext";
-import HeaderNav from "./components/HeaderNav";
-import WelcomePopup from "./components/WelcomePopup";
+import { CartProvider } from "@/context/CartContext";
+import HeaderNav from "@/components/HeaderNav";
+import WelcomePopup from "@/components/WelcomePopup";
 import { Toaster } from "react-hot-toast";
-import prisma from "../lib/prisma";
+import prisma from "@/lib/prisma";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });

@@ -1,0 +1,118 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 3.5rem 1rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.hero h1 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.sectionTitle {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.channelsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.channelCard {
+  padding: 2rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.channelCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.channelIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.channelCard h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.channelMain {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.channelSub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faqItem {
+  padding: 1.5rem;
+}
+
+.faqQ {
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+
+.faqA {
+  line-height: 1.7;
+  color: var(--text-main);
+  padding-left: 1.5rem;
+  border-left: 3px solid var(--border);
+}
+
+.cta {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: var(--radius);
+  padding: 3rem 2rem;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta h2 {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.cta p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1rem;
+}

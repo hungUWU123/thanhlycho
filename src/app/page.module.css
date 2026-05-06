@@ -1,0 +1,74 @@
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  margin-bottom: 3rem;
+  border: 1px solid var(--border);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.hero p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.productImage {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--background);
+  object-fit: cover;
+  border-bottom: 1px solid var(--border);
+}
+
+.productInfo {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.productTitle {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.productPrice {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  border: 1px dashed var(--border);
+}

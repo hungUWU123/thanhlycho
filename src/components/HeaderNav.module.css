@@ -1,0 +1,131 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Base nav link */
+.navLink {
+  padding: 0.5rem 0.85rem;
+  color: var(--text-main);
+  font-weight: 500;
+  border-radius: var(--radius);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.navLink:hover {
+  background: var(--background);
+  color: var(--primary);
+}
+
+/* Cart link */
+.cartLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Dropdown ── */
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  padding: 0.5rem 0.85rem;
+  color: var(--text-main);
+  font-weight: 500;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.dropbtn:hover,
+.dropdown:hover .dropbtn {
+  background: var(--background);
+  color: var(--primary);
+}
+
+.arrow {
+  font-size: 0.7rem;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.dropdown:hover .arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu panel */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  padding: 0.4rem 0;
+  z-index: 100;
+
+  /* Hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+}
+
+.dropdown:hover .dropdownMenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropItem {
+  display: block;
+  padding: 0.6rem 1.1rem;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+
+.dropItem:hover {
+  background: var(--background);
+  color: var(--primary);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.3rem 0;
+}

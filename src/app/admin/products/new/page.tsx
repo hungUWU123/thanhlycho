@@ -70,8 +70,8 @@ export default async function NewProduct() {
             </div>
 
             <div className={formStyles.formGroup}>
-              <label htmlFor="image">Tải Hình ảnh lên</label>
-              <input type="file" id="image" name="image" className={formStyles.input} accept="image/*" />
+              <label htmlFor="image">Link hình ảnh (từ Postimg, Imgur...)</label>
+              <input type="text" id="image" name="image" className={formStyles.input} placeholder="Dán liên kết trực tiếp vào đây..." />
             </div>
 
             <div className={formStyles.formGroup}>

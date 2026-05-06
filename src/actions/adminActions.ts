@@ -16,21 +16,9 @@ export async function createProduct(formData: FormData) {
   const originalPrice = originalPriceStr ? parseFloat(originalPriceStr) : null;
   const condition = formData.get("condition") as string;
   const categoryId = formData.get("categoryId") as string;
-  const imageFile = formData.get("image") as File;
+  const imageUrl = formData.get("image") as string;
   const stock = parseInt(formData.get("stock") as string) || 0;
   const inStock = formData.get("inStock") !== "false";
-
-  let imageUrl = null;
-
-  if (imageFile && imageFile.size > 0) {
-    const bytes = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const uniqueName = `${Date.now()}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-    const filePath = path.join(process.cwd(), "public", "uploads", uniqueName);
-    
-    await writeFile(filePath, buffer);
-    imageUrl = `/uploads/${uniqueName}`;
-  }
 
   if (!name || !price || !categoryId) {
     throw new Error("Thiếu thông tin bắt buộc");
